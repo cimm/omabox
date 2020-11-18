@@ -4,11 +4,6 @@ summary: A kiosk image viewer intended for use with mir-kiosk
 description: |
   Image viewer for mir-kiosk based on imv
 
-  To manage pictures shown by the Image Viewer, open
-  http://<IP of your kiosk device>:8080/ and upload some
-  picture files to the directory, a slideshow will automatically
-  start on the Image Viewer screen.
-
   Pictures will run as a slideshow. The time per picture can be
   changed via "snap set picviewer-kiosk duration=30", the default
   is 10 seconds per image.
@@ -20,9 +15,6 @@ description: |
 
   To find out more about imv go to
   https://github.com/eXeC64/imv
-
-  To find out more about the FileManager tool used, go to
-  https://github.com/serverwentdown/file-manager
 
   To find out more about the snap package of imv go to
   https://github.com/ogra1/picviewer-kiosk
@@ -50,15 +42,6 @@ apps:
       - network-bind
       - opengl
       - wayland
-  file-browser:
-    command: bin/node $SNAP/index.js
-    daemon: simple
-    plugs:
-      - network
-      - network-bind
-  watcher:
-    command: watcher.sh
-    daemon: simple
 
 parts:
   imv:
@@ -94,39 +77,6 @@ parts:
       - libopenjp2-7
       - libraw16
       - libwebpmux3
-  filebrowser:
-    source: https://github.com/serverwentdown/file-manager.git
-    source-depth: 1
-    plugin: nodejs
-    nodejs-version: 10.21.0
-    nodejs-package-manager: npm
-    build-environment:
-      - PATH: "$PATH:$SNAPCRAFT_PART_SRC/../npm/bin"
-      - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
-      - NPM_CONFIG_UNSAFE_PERM: "true"
-    override-build: |
-      # workaround for build.snapcraft.io builds
-      # https://bugs.launchpad.net/bugs/1886861
-      if [ -n "$http_proxy" ]; then
-        export ELECTRON_GET_USE_PROXY=1
-        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy}"
-        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy}"
-      fi
-
-      npm install
-
-      # install everything to $SNAPCRAFT_PART_INSTALL
-      for item in index.js node_modules views assets; do
-        cp -av $item $SNAPCRAFT_PART_INSTALL/
-      done
-      # also install node and npm
-      cp -av $SNAPCRAFT_PART_SRC/../npm/bin $SNAPCRAFT_PART_INSTALL/
-      cp -av $SNAPCRAFT_PART_SRC/../npm/lib/node_modules/* $SNAPCRAFT_PART_INSTALL/node_modules/
-  watcher:
-    plugin: dump
-    source: watcher
-    stage-packages:
-      - inotify-tools
   wrappers:
     source: wrappers/
     plugin: dump
