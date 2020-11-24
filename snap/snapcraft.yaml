@@ -46,7 +46,7 @@ apps:
     command: bin/sync.wrapper # daemon runs as root
     daemon: oneshot
     timer: "10:00-22:00/12" # every hour, on the hour, between 10 and 22h
-    plugs: [ network-bind ]
+    plugs: [ network ]
 
 hooks:
   configure:
