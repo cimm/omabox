@@ -1,4 +1,4 @@
-name: picviewer-kiosk
+name: imv-kiosk
 adopt-info: imv
 summary: A kiosk image viewer intended for use with mir-kiosk
 description: |
