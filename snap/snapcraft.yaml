@@ -42,6 +42,15 @@ apps:
       - network-bind
       - opengl
       - wayland
+  sync:
+    command: bin/sync.wrapper # daemon runs as root
+    daemon: oneshot
+    timer: "10:00-22:00/12" # every hour, on the hour, between 10 and 22h
+    plugs: [ network-bind ]
+
+hooks:
+  configure:
+    plugs: [ network ]
 
 parts:
   imv:
@@ -77,8 +86,16 @@ parts:
       - libopenjp2-7
       - libraw16
       - libwebpmux3
+  b2:
+    plugin: dump
+    source: .
+    override-pull: |
+      curl -sSLO https://f000.backblazeb2.com/file/backblazefiles/b2/cli/linux/b2
+      chmod +x b2
+    build-packages: [ curl ]
   wrappers:
     source: wrappers/
     plugin: dump
     organize:
       imv.wrapper: bin/imv.wrapper
+      sync.wrapper: bin/sync.wrapper

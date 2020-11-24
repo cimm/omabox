@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Download all files from the B2 bucket
+
+AUTH_FILE="$SNAP_USER_COMMON/b2_account_info" # default is ~/.b2_account_info, see configure hook
+MEDIA_DIR="$SNAP_USER_COMMON/media"
+BUCKET="b2://$(snapctl get b2-bucket)"
+
+B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/b2 sync $BUCKET $MEDIA_DIR
