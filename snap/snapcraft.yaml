@@ -74,7 +74,6 @@ parts:
       - libglu1-mesa-dev
       - libcmocka-dev
       - librsvg2-dev
-      - libxkbcommon-x11-dev
       - libwayland-dev
       - xsltproc
     stage-packages:
