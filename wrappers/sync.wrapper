@@ -8,5 +8,3 @@ BUCKET="b2://$(snapctl get b2-bucket)"
 
 rm -f $MEDIA_DIR/*
 B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/usr/bin/python3 $SNAP/bin/b2 sync $BUCKET $MEDIA_DIR
-
-snapctl restart "$SNAP_NAME".imv
