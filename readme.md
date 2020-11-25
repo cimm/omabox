@@ -31,6 +31,8 @@ Each picture will be shown for 10 seconds, this can be changed via the omaBOX co
 snap set omabox duration=30
 ```
 
+Depending on your hardware the screen might be upside down and the enclosure could make it impossible to physically turn the screen. Luckily we can [rotate the screen](https://askubuntu.com/a/1293464) in the mir-kiosk config.
+
 ## License
 
 The snap itself, imv, and the [B2](https://github.com/Backblaze/B2_Command_Line_Tool) application are all MIT licensed. The icon is by [DesignBite](https://designbite.in/) and [CCBY](https://creativecommons.org/licenses/by/3.0/us/legalcode) licensed.
