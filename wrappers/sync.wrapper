@@ -6,4 +6,4 @@ AUTH_FILE="$SNAP_USER_COMMON/b2_account_info" # default is ~/.b2_account_info, s
 MEDIA_DIR="$SNAP_USER_COMMON/media"
 BUCKET="b2://$(snapctl get b2-bucket)"
 
-B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/b2 sync $BUCKET $MEDIA_DIR
+B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/usr/bin/python3 $SNAP/bin/b2 sync $BUCKET $MEDIA_DIR

@@ -86,12 +86,8 @@ parts:
       - libraw16
       - libwebpmux3
   b2:
-    plugin: dump
-    source: .
-    override-pull: |
-      curl -sSLO https://f000.backblazeb2.com/file/backblazefiles/b2/cli/linux/b2
-      chmod +x b2
-    build-packages: [ curl ]
+    plugin: python
+    python-packages: [ b2 ]
   wrappers:
     source: wrappers/
     plugin: dump

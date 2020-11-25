@@ -19,6 +19,6 @@ APPLICATION_KEY="$(snapctl get b2-application-key)"
 AUTH_FILE="$SNAP_USER_COMMON/b2_account_info" # default is ~/.b2_account_info, see sync.wrapper
 
 if [ -n "${APPLICATION_KEY_ID}" ] && [ -n "${APPLICATION_KEY}" ]; then
-  B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/b2 clear-account
-  B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/b2 authorize-account $APPLICATION_KEY_ID $APPLICATION_KEY
+  B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/usr/bin/python3 $SNAP/bin/b2 clear-account
+  B2_ACCOUNT_INFO=$AUTH_FILE $SNAP/usr/bin/python3 $SNAP/bin/b2 authorize-account $APPLICATION_KEY_ID $APPLICATION_KEY
 fi
