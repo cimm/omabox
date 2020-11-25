@@ -37,11 +37,7 @@ apps:
     daemon: simple
     restart-condition: always
     extensions: [ gnome-3-28 ]
-    plugs:
-      - hardware-observe
-      - network-bind
-      - opengl
-      - wayland
+    plugs: [ opengl, wayland ]
   sync:
     command: bin/sync.wrapper # daemon runs as root
     daemon: oneshot
