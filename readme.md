@@ -28,7 +28,7 @@ snap set omabox b2-application-key-id=123abc b2-application-key=abc123 b2-bucket
 Each picture will be shown for 10 seconds, this can be changed via the omaBOX configuration settings.
 
 ```sh
-snap set omabox duration=30
+snap set omabox imv-duration=30
 ```
 
 Depending on your hardware the screen might be upside down and the enclosure could make it impossible to physically turn the screen. Luckily we can [rotate the screen](https://askubuntu.com/a/1293464) in the mir-kiosk config.

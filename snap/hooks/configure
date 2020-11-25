@@ -1,14 +1,13 @@
 #!/bin/sh -e
 
-# Set wait time before showing next picture via snap config
+# Set imv wait time before showing next picture via snap config
 
-DEFAULT_DURATION=10
+DEFAULT_IMV_DURATION=10
+imv_duration="$(snapctl get imv-duration)"
 
-duration="$(snapctl get duration)"
-
-if ! expr "$duration" : '^[0-9]*$' > /dev/null; then
-    echo "\"$duration\" is not a valid duration, reveting to $DEFAULT_DURATION seconds" >&2
-    snapctl set duration="$DEFAULT_DURATION"
+if ! expr "$imv_duration" : '^[0-9]*$' > /dev/null; then
+    echo "\"$imv_duration\" is not a valid duration, reveting to $DEFAULT_IMV_DURATION seconds" >&2
+    snapctl set imv_duration="$DEFAULT_IMV_DURATION"
     snapctl restart "$SNAP_NAME".imv
 fi
 
