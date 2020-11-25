@@ -1,24 +1,20 @@
 name: imv-kiosk
 version: git
-summary: A kiosk image viewer intended for use with mir-kiosk
+summary: Internet-connected digital picture frames for Ubuntu Core on a RPi.
 description: |
-  Image viewer for mir-kiosk based on imv
+  A Raspberry Pi with a screen that loops over a local directory with pictures and periodically refreshes these from a Backblaze B2 bucket. New pictures in the bucket will, after a while, automatically show up on the picture frame.
 
-  Pictures will run as a slideshow. The time per picture can be
-  changed via "snap set picviewer-kiosk duration=30", the default
-  is 10 seconds per image.
+  Install Ubuntu Core on a Raspberry Pi and create a Backblaze B2 bucket with some pictures. Create a new B2 App Key pair with read-only access to the bucket. Install the mir-kiosk snap, needed to run graphical applications. The omaBOX snap is next. Configure the B2 bucket and App Key pair.
 
-  Imv has support for over 30 different image file formats including
-    - Photoshop PSD files
-    - Animated GIFS
-    - Various RAW formats
+    snap install mir-kiosk
+    snap install omabox
+    snap set omabox b2-application-key-id=123abc b2-application-key=abc123 b2-bucket=abc
 
-  To find out more about imv go to
-  https://github.com/eXeC64/imv
+  Pictures are show for 10 seconds each, this can be changed via the snap config.
 
-  To find out more about the snap package of imv go to
-  https://github.com/ogra1/picviewer-kiosk
+    snap set omabox imv-duration=30
 
+  More settings at https://github.com/cimm/omabox
 base: core18
 grade: stable
 confinement: strict
@@ -41,7 +37,7 @@ apps:
   sync:
     command: bin/sync.wrapper # daemon runs as root
     daemon: oneshot
-    timer: "10:00-22:00/12" # every hour, on the hour, between 10 and 22h
+    timer: '10:00-22:00/12' # every hour, on the hour, between 10 and 22h
     plugs: [ network ]
 
 hooks:
