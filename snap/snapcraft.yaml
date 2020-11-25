@@ -1,5 +1,5 @@
 name: imv-kiosk
-adopt-info: imv
+version: git
 summary: A kiosk image viewer intended for use with mir-kiosk
 description: |
   Image viewer for mir-kiosk based on imv
@@ -59,10 +59,6 @@ parts:
     source-tag: v4.1.0
     plugin: make
     override-build: |
-      # set version
-      VER="$(git tag|tail -1)"
-      echo "setting version to $VER"
-      snapcraftctl set-version $VER
       # force wayland-only build
       sed -i 's/^WINDOWS=all/WINDOWS=wayland/g' config.mk
       # force single threaded build to make xsltproc not fail
