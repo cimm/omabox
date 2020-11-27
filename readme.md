@@ -33,6 +33,10 @@ snap set omabox imv-duration=30
 
 Depending on your hardware the screen might be upside down and the enclosure could make it impossible to physically turn the screen. Luckily we can [rotate the screen](https://askubuntu.com/a/1293464) in the mir-kiosk config.
 
+## Uploader
+
+Images can simply be uploaded to the bucket via the Backblaze website. The repository includes a small upload webpage in the `upload/` folder (work in progress) if multiple people want to upload photos to the same bucket.
+
 ## License
 
 The snap itself, imv, and the [B2](https://github.com/Backblaze/B2_Command_Line_Tool) application are all MIT licensed. The icon is by [DesignBite](https://designbite.in/) and [CCBY](https://creativecommons.org/licenses/by/3.0/us/legalcode) licensed.
