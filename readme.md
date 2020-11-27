@@ -1,5 +1,5 @@
 <div align='center'>
-  <img src='logo.svg' alt='Logo' width='130px'/>
+  <img src='logo.svg' alt='Logo'/>
   <p><em>A <a href='https://snapcraft.io/about'>snap</a> for <a href='https://ubuntu.com/core'>Ubuntu Core</a> intended to run on a <a href='https://www.raspberrypi.org/products/raspberry-pi-3-model-b/'>Raspberry Pi</a> as an internet-connected digital picture frame.</em></p>
 </div>
 
@@ -39,4 +39,4 @@ Images can simply be uploaded to the bucket via the Backblaze website. The repos
 
 ## License
 
-The snap itself, imv, and the [B2](https://github.com/Backblaze/B2_Command_Line_Tool) application are all MIT licensed. The icon is by [DesignBite](https://designbite.in/) and [CCBY](https://creativecommons.org/licenses/by/3.0/us/legalcode) licensed.
+The snap itself, imv, and the [B2](https://github.com/Backblaze/B2_Command_Line_Tool) application are all MIT licensed.
