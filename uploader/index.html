@@ -13,11 +13,11 @@
 </head>
 <body>
   <script>
-    async function upload(files)
-    {
-      const authorizationToken = '4_003781a174bb4eb0000000001_0198940a_ba59a8_upld_Ptb39XHDeTiYJfdpXR_CfVAJD00='
-      const uploadUrl = 'https://pod-031-2004-00.backblaze.com/b2api/v2/b2_upload_file/f73861ca9147e40b7b540e1b/c003_v0312004_t0006'
+    async function upload(files) {
+      const authorizationToken = 'FIXME'
+      const uploadUrl = 'FIXME'
       const [ file ] = files
+
       await fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -25,16 +25,65 @@
           'X-Bz-File-Name': randomizeFilename(file),
           'X-Bz-Content-Sha1': 'do_not_verify'
         },
-        body: file
+        body: await resizeImage({ file: file, maxSize: 800 }) // Raspberry Pi screen is 800 x 480
       })
       .then(response => response.json())
       .then(data => { alert('Image uploaded') })
       .catch((error) => { alert(error) })
     }
 
-    function randomizeFilename(file)
-    {
+    function randomizeFilename(file) {
       return Math.random().toString(36).substring(2) + '.' + file.name.split('.').pop()
+    }
+
+    function resizeImage(settings) {
+      var file = settings.file
+      var maxSize = settings.maxSize
+      var reader = new FileReader()
+      var image = new Image()
+      var canvas = document.createElement('canvas')
+      var dataURItoBlob = function (dataURI) {
+        var bytes = dataURI.split(',')[0].indexOf('base64') >= 0 ?
+          atob(dataURI.split(',')[1]) :
+          unescape(dataURI.split(',')[1]);
+        var mime = dataURI.split(',')[0].split(':')[1].split(';')[0]
+        var max = bytes.length
+        var ia = new Uint8Array(max)
+        for (var i = 0; i < max; i++)
+          ia[i] = bytes.charCodeAt(i)
+        return new Blob([ia], { type: mime })
+      }
+      var resize = function () {
+        var width = image.width
+        var height = image.height
+        if (width > height) {
+          if (width > maxSize) {
+            height *= maxSize / width
+            width = maxSize
+          }
+        } else {
+          if (height > maxSize) {
+            width *= maxSize / height
+            height = maxSize
+          }
+        }
+        canvas.width = width
+        canvas.height = height
+        canvas.getContext('2d').drawImage(image, 0, 0, width, height)
+        var dataUrl = canvas.toDataURL('image/jpeg')
+        return dataURItoBlob(dataUrl)
+      }
+      return new Promise(function (ok, no) {
+        if (!file.type.match(/image.*/)) {
+          no(new Error("Not an image"))
+          return
+        }
+        reader.onload = function (readerEvent) {
+          image.onload = function () { return ok(resize()) };
+          image.src = readerEvent.target.result
+        }
+        reader.readAsDataURL(file)
+      })
     }
   </script>
 
