@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>omaBOX Uploader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>header {
+  margin-top: 2rem;
+  text-align: center;
+}
+form {
+  padding: 1rem 0;
+  text-align: center;
+}
+summary {
+  color: silver;
+}
+pre {
+  background-color: whitesmoke;
+  border-radius: 3px;
+  padding: 0.5em;
+}
+</style>
+  <script>// Resizes the image to 800px (screen with of Raspberry Pi)
+// and uploads the image to the Backblaze B2 bucket specified
+// by the authorizationToken and uploadUrl.
+async function upload(files, authorizationToken, uploadUrl) {
+  const [ file ] = files
+  const maxSize = 800
+
+  await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': authorizationToken,
+      'X-Bz-File-Name': randomizeFilename(file),
+      'X-Bz-Content-Sha1': 'do_not_verify'
+    },
+    body: await resizeImage(file, maxSize)
+  })
+  .then(response => response.json())
+  .then(data => {
+    (data.action === 'upload') ? alert('Image uploaded') : alert('Oops, something went wrong')
+  })
+  .catch((error) => alert(error))
+}
+
+// Semi-randomizes the filename so we don't override 
+// existing files in the bucket.
+function randomizeFilename(file) {
+  return Math.random().toString(36).substring(2) + '.' + file.name.split('.').pop()
+}
+
+// Resize image before uploading
+// 1. Smaller uploads are better
+// 2. imv has issues with very wide images
+function resizeImage(file, maxSize) {
+  const reader = new FileReader()
+  const image = new Image()
+  const canvas = document.createElement('canvas')
+
+  const dataURItoBlob = function (dataURI) {
+    const bytes = dataURI.split(',')[0].indexOf('base64') >= 0 ?
+      atob(dataURI.split(',')[1]) :
+      unescape(dataURI.split(',')[1])
+    const mime = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    const max = bytes.length
+    let ia = new Uint8Array(max)
+    for (let i = 0; i < max; i++)
+      ia[i] = bytes.charCodeAt(i)
+    return new Blob([ia], { type: mime })
+  }
+
+  const resize = function () {
+    let width = image.width
+    let height = image.height
+    if (width > height) {
+      if (width > maxSize) {
+        height *= maxSize / width
+        width = maxSize
+      }
+    } else {
+      if (height > maxSize) {
+        width *= maxSize / height
+        height = maxSize
+      }
+    }
+    canvas.width = width
+    canvas.height = height
+    canvas.getContext('2d').drawImage(image, 0, 0, width, height)
+    const dataUrl = canvas.toDataURL('image/jpeg')
+    return dataURItoBlob(dataUrl)
+  }
+
+  return new Promise(function (ok, no) {
+    if (!file.type.match(/image.*/)) {
+      no(alert('Not an image'))
+      return
+    }
+    reader.onload = function (readerEvent) {
+      image.onload = function () { return ok(resize()) }
+      image.src = readerEvent.target.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
+</script>
+</head>
+<body>
+  <header>
+    <img src="data:image/webp;base64,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" alt="omaBOX">
+  </header>
+
+  <form>
+    <p>
+      <input type="file" accept="image/png, image/jpeg" oninput="upload(this.files, 'CHANGEME_AUTHORIZATION_TOKEN', 'CHANGEME_UPLOAD_URL')">
+    </p>
+  </form>
+
+  <details>
+    <summary>Documentation</summary>
+    <p>Uploads an image to a Backblaze B2 bucket via an authorized upload URL.
+    </p>
+    <p>Set custom CORS rules on the bucket via the B2 CLI client and wait 10 minutes. Custom rules can not be added via the web UI.</p>
+    <pre>
+    $ b2 update-bucket --corsRules '[
+      {
+          "corsRuleName": "uploadFromAnyOrigin",
+          "allowedOrigins": ["*"],
+          "allowedHeaders": ["*"],
+          "allowedOperations": ["b2_upload_file", "b2_upload_part"],
+          "exposeHeaders": ["authorization", "x-bz-file-name", "x-bz-content-sha1"],
+          "maxAgeSeconds": 3600
+      }]' &lt;bucket-name&gt; allPublic</pre>
+    <p>More restrictive CORS rules if the index.html file is server from the bucket itself:
+    <pre>
+    $ b2 update-bucket --corsRules '[
+      {
+          "corsRuleName": "uploadFromBucket",
+          "allowedOrigins": ["&lt;https://NNNN.backblazeb2.com&gt;"],
+          "allowedHeaders": ["*"],
+          "allowedOperations": ["b2_upload_file"],
+          "exposeHeaders": ["authorization", "x-bz-file-name", "x-bz-content-sha1"],
+          "maxAgeSeconds": 3600
+      }]' &lt;bucket-name&gt; allPublic</pre>
+    </p><p>Get the <var>accountAuthToken</var> and <var>bucketId</var> via the B2 CLI client. Next use cURL to get an <var>uploadUrl</var> and temporary <var>authorizationToken</var> (valid for 24 hours) from Backblaze. Use these in the script above.</p>
+    <pre>
+    $ b2 get-account-info
+    $ curl \
+      -H 'Authorization: accountAuthToken' \
+      -d '{"bucketId": "bucketId"}' \
+      https://apiNNN.backblazeb2.com/b2api/v2/b2_get_upload_url</pre>
+  </details>
+</body>
+</html>
+

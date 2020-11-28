@@ -1,0 +1,16 @@
+header {
+  margin-top: 2rem;
+  text-align: center;
+}
+form {
+  padding: 1rem 0;
+  text-align: center;
+}
+summary {
+  color: silver;
+}
+pre {
+  background-color: whitesmoke;
+  border-radius: 3px;
+  padding: 0.5em;
+}

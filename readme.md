@@ -1,6 +1,8 @@
 <div align='center'>
-  <img src='logo.svg' alt='Logo'/>
-  <p><em>A <a href='https://snapcraft.io/about'>snap</a> for <a href='https://ubuntu.com/core'>Ubuntu Core</a> intended to run on a <a href='https://www.raspberrypi.org/products/raspberry-pi-3-model-b/'>Raspberry Pi</a> as an internet-connected digital picture frame.</em></p>
+  <img src='uploader/src/logo.webp'>
+  <p>
+    <em>A <a href='https://snapcraft.io/about'>snap</a> for <a href='https://ubuntu.com/core'>Ubuntu Core</a> intended to run on a <a href='https://www.raspberrypi.org/products/raspberry-pi-3-model-b/'>Raspberry Pi</a> as an internet-connected digital picture frame.</em>
+  </p>
 </div>
 
 ## What?
@@ -35,7 +37,15 @@ Depending on your hardware the screen might be upside down and the enclosure cou
 
 ## Uploader
 
-Images can simply be uploaded to the bucket via the Backblaze website. The repository includes a small upload webpage in the `upload/` folder (work in progress) if multiple people want to upload photos to the same bucket.
+Optional. Images can simply be uploaded to the bucket via the Backblaze website. The repository includes a small upload webpage in the `upload/dist` folder if multiple people want to upload photos to the same bucket. Change the CHANGEME_AUTHORIZATION_TOKEN and CHANGEME_UPLOAD_URL variables and simply host the single HTML page in the same bucket you created earlier. My family uses this to quickly upload images to the omaBOX from their phones.
+
+## Development
+
+The uploader web UI is a signle HTML page for easier installation. Use the `uploader/src` folder for development and inline the JavaScript, CSS and images with [inliner](https://github.com/remy/inliner) to the `uploader/dist` folder.
+
+```sh
+inliner --nocompress uploader/src/index.html > uploader/dist/index.html
+```
 
 ## License
 
