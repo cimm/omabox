@@ -37,12 +37,12 @@ apps:
   sync:
     command: bin/sync.wrapper # daemon runs as root
     daemon: oneshot
-    timer: '10:00-22:00/12' # every hour, on the hour, between 10 and 22h
+    timer: '09:00-23:00/12' # every hour, on the hour, between 10 and 22h
     plugs: [ network ]
   uploader:
     command: usr/bin/python3 $SNAP/bin/uploader.py
     daemon: oneshot
-    timer: '10:30-22:30/12' # TOD0 only once or twice per day
+    timer: '09:30-23:30/12' # TOD0 only once or twice per day
     plugs: [ network ]
 
 hooks:
