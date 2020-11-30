@@ -16,8 +16,14 @@ SNAP = os.getenv('SNAP')
 SNAP_USER_COMMON = os.getenv('SNAP_USER_COMMON')
 
 APPLICATION_KEY_ID = os.system("snapctl get b2-application-key-id")
+if not APPLICATION_KEY_ID:
+    sys.exit('APPLICATION_KEY_ID is empty, set with "snap set omabox b2-application-key-id"')
 APPLICATION_KEY = os.system("snapctl get b2-application-key")
+if not APPLICATION_KEY:
+    sys.exit('APPLICATION_KEY is empty, set with "snap set omabox b2-application-key"')
 BUCKET_NAME = os.system("snapctl get b2-bucket")
+if not BUCKET_NAME:
+    sys.exit('BUCKET_NAME is empty, set with "snap set omabox b2-bucket"')
 
 MEDIA_DIR = f'{SNAP_USER_COMMON}/media'
 TEMPLATE_FILE = f'{SNAP}/uploader/dist/index.html'
