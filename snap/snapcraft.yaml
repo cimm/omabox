@@ -1,4 +1,4 @@
-name: imv-kiosk
+name: omabox
 version: git
 summary: Internet-connected digital picture frames for Ubuntu Core on a RPi.
 description: |
@@ -38,6 +38,11 @@ apps:
     command: bin/sync.wrapper # daemon runs as root
     daemon: oneshot
     timer: '10:00-22:00/12' # every hour, on the hour, between 10 and 22h
+    plugs: [ network ]
+  uploader:
+    command: usr/bin/python3 $SNAP/bin/uploader.py
+    daemon: oneshot
+    timer: '10:30-22:30/12' # TOD0 only once or twice per day
     plugs: [ network ]
 
 hooks:
@@ -82,3 +87,13 @@ parts:
     organize:
       imv.wrapper: bin/imv.wrapper
       sync.wrapper: bin/sync.wrapper
+  scripts:
+    source: scripts/
+    plugin: dump
+    organize:
+      uploader.py: bin/uploader.py
+  uploader:
+    source: uploader/dist
+    plugin: dump
+    organize:
+      index.html: uploader/index.html
