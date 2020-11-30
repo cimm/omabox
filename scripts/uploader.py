@@ -5,9 +5,9 @@
 # token and upload URL placheolders and upload the modified file to the
 # the B2 bucket. This script needs to run at least once every 24 hours.
 
-import json
 import os
 import shutil
+import subprocess
 import sys
 from b2sdk.v1 import InMemoryAccountInfo
 from b2sdk.v1 import B2Api
@@ -15,13 +15,13 @@ from b2sdk.v1 import B2Api
 SNAP = os.getenv('SNAP')
 SNAP_USER_COMMON = os.getenv('SNAP_USER_COMMON')
 
-APPLICATION_KEY_ID = os.system("snapctl get b2-application-key-id")
+APPLICATION_KEY_ID = subprocess.check_output(['snapctl', 'get', 'b2-application-key-id'])
 if not APPLICATION_KEY_ID:
     sys.exit('APPLICATION_KEY_ID is empty, set with "snap set omabox b2-application-key-id"')
-APPLICATION_KEY = os.system("snapctl get b2-application-key")
+APPLICATION_KEY = subprocess.check_output(['snapctl', 'get', 'b2-application-key'])
 if not APPLICATION_KEY:
     sys.exit('APPLICATION_KEY is empty, set with "snap set omabox b2-application-key"')
-BUCKET_NAME = os.system("snapctl get b2-bucket")
+BUCKET_NAME = subprocess.check_output(['snapctl', 'get', 'b2-bucket'])
 if not BUCKET_NAME:
     sys.exit('BUCKET_NAME is empty, set with "snap set omabox b2-bucket"')
 
