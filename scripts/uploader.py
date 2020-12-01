@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-# The upload URL in the webUI is only valid for 24 hours so we use this
-# script to copy the read-only index.html from the snap, replace the auth
-# token and upload URL placheolders and upload the modified file to the
-# the B2 bucket. This script needs to run at least once every 24 hours.
+# The upload URL in the webUI is only valid for 24 hours so we use this script
+# to copy the read-only index.html from the snap, replace the auth token and
+# upload URL placheolders and upload the modified file to the the B2 bucket.
+# This script needs to run at least once every 24 hours.
+
+# TODO optimization idea: extract the depeated bucket to bucket_id network requests
 
 import os
 import shutil
@@ -12,22 +14,19 @@ import sys
 from b2sdk.v1 import InMemoryAccountInfo
 from b2sdk.v1 import B2Api
 
-SNAP = os.getenv('SNAP')
-SNAP_USER_COMMON = os.getenv('SNAP_USER_COMMON')
+snap = os.getenv('SNAP')
+snap_user_common = os.getenv('SNAP_USER_COMMON')
 
-APPLICATION_KEY_ID = subprocess.check_output(['snapctl', 'get', 'b2-application-key-id'])
-if not APPLICATION_KEY_ID:
-    sys.exit('APPLICATION_KEY_ID is empty, set with "snap set omabox b2-application-key-id"')
-APPLICATION_KEY = subprocess.check_output(['snapctl', 'get', 'b2-application-key'])
-if not APPLICATION_KEY:
-    sys.exit('APPLICATION_KEY is empty, set with "snap set omabox b2-application-key"')
-BUCKET_NAME = subprocess.check_output(['snapctl', 'get', 'b2-bucket'])
-if not BUCKET_NAME:
-    sys.exit('BUCKET_NAME is empty, set with "snap set omabox b2-bucket"')
-
-MEDIA_DIR = f'{SNAP_USER_COMMON}/media'
-TEMPLATE_FILE = f'{SNAP}/uploader/dist/index.html'
+MEDIA_DIR = f'{snap_user_common}/media'
+TEMPLATE_FILE = f'{snap}/uploader/index.html'
 INDEX_FILE = f'{MEDIA_DIR}/index.html'
+
+def get_snap_config(var):
+    """Get a value from the snap’s configuration"""
+    val = subprocess.check_output(['snapctl', 'get', var], encoding='UTF-8').rstrip()
+    if not val:
+        sys.exit(f'Config {val} is empty, set with "snap set omabox {var}"')
+    return val
 
 def copy_template():
     """Copy tempate HTML from snap to writable directory"""
@@ -39,7 +38,8 @@ def copy_template():
 
 def tokens():
     """Request new authorization token and upload URL from Backblaze B2"""
-    bucket = B2.get_bucket_by_name(BUCKET_NAME)
+    name = get_snap_config('b2-bucket')
+    bucket = B2.get_bucket_by_name(name)
     return B2.session.get_upload_url(bucket.get_id())
 
 def replace_keys():
@@ -55,11 +55,14 @@ def replace_keys():
 
 def upload():
     """Upload the modified file to the bucket"""
-    bucket = B2.get_bucket_by_name(BUCKET_NAME)
+    name = get_snap_config('b2-bucket')
+    bucket = B2.get_bucket_by_name(name)
     bucket.upload_local_file(INDEX_FILE, 'index.html')
 
 B2 = B2Api(InMemoryAccountInfo())
-B2.authorize_account('production', APPLICATION_KEY_ID, APPLICATION_KEY)
+app_key_id = get_snap_config('b2-application-key-id')
+app_key = get_snap_config('b2-application-key')
+B2.authorize_account('production', app_key_id, app_key)
 
 copy_template()
 replace_keys()
