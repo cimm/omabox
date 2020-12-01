@@ -34,8 +34,8 @@ apps:
     restart-condition: always
     extensions: [ gnome-3-28 ]
     plugs: [ opengl, wayland ]
-  sync:
-    command: bin/sync.wrapper # daemon runs as root
+  downloader:
+    command: bin/downloader.wrapper # daemon runs as root
     daemon: oneshot
     timer: '09:00-23:00/12' # every hour, on the hour, between 10 and 22h
     plugs: [ network ]
@@ -86,7 +86,7 @@ parts:
     plugin: dump
     organize:
       imv.wrapper: bin/imv.wrapper
-      sync.wrapper: bin/sync.wrapper
+      downloader.wrapper: bin/downloader.wrapper
   scripts:
     source: scripts/
     plugin: dump
