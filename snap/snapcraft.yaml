@@ -29,7 +29,7 @@ architectures:
 
 apps:
   imv:
-    command: snap/command-chain/desktop-launch $SNAP/bin/imv.wrapper
+    command: snap/command-chain/desktop-launch $SNAP/bin/imv-wrapper.py
     daemon: simple
     restart-condition: always
     extensions: [ gnome-3-28 ]
@@ -81,17 +81,13 @@ parts:
   b2:
     plugin: python
     python-packages: [ b2 ]
-  wrappers:
-    source: wrappers/
-    plugin: dump
-    organize:
-      imv.wrapper: bin/imv.wrapper
   scripts:
     source: scripts/
     plugin: dump
     organize:
-      uploader.py: bin/uploader.py
       downloader.py: bin/downloader.py
+      imv-wrapper.py: bin/imv-wrapper.py
+      uploader.py: bin/uploader.py
   uploader:
     source: uploader/dist
     plugin: dump

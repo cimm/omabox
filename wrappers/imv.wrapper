@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-# Start fullscreen imv slideshow with $DURATION seconds per picture in the $MEDIA_DIR folder.
-
-DURATION="$(snapctl get imv-duration)"
-MEDIA_DIR="$SNAP_USER_COMMON/media/"
-exec $SNAP/usr/bin/imv -f -t $DURATION $MEDIA_DIR
