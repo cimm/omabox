@@ -35,9 +35,9 @@ apps:
     extensions: [ gnome-3-28 ]
     plugs: [ opengl, wayland ]
   downloader:
-    command: bin/downloader.wrapper # daemon runs as root
-    daemon: oneshot
-    timer: '09:00-23:00/12' # every hour, on the hour, between 10 and 22h
+    command: usr/bin/python3 $SNAP/bin/downloader.py
+    daemon: oneshot # runs as root
+    timer: '09:00-23:00/12'
     plugs: [ network ]
   uploader:
     command: usr/bin/python3 $SNAP/bin/uploader.py
@@ -86,12 +86,12 @@ parts:
     plugin: dump
     organize:
       imv.wrapper: bin/imv.wrapper
-      downloader.wrapper: bin/downloader.wrapper
   scripts:
     source: scripts/
     plugin: dump
     organize:
       uploader.py: bin/uploader.py
+      downloader.py: bin/downloader.py
   uploader:
     source: uploader/dist
     plugin: dump
