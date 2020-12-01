@@ -7,7 +7,7 @@ imv_duration="$(snapctl get imv-duration)"
 
 if ! expr "$imv_duration" : '^[0-9]*$' > /dev/null; then
     echo "\"$imv_duration\" is not a valid duration, reveting to $DEFAULT_IMV_DURATION seconds" >&2
-    snapctl set imv_duration="$DEFAULT_IMV_DURATION"
+    snapctl set imv-duration="$DEFAULT_IMV_DURATION"
     snapctl restart "$SNAP_NAME".imv
 fi
 
