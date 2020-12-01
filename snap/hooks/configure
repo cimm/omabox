@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+# Run uploader so we can start adding images
+
+usr/bin/python3 $SNAP/bin/uploader.py
+
 # Set imv wait time before showing next picture via snap config
 
 DEFAULT_IMV_DURATION=10
