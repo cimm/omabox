@@ -33,7 +33,7 @@ apps:
     daemon: simple
     restart-condition: always
     extensions: [ gnome-3-28 ]
-    plugs: [ opengl, wayland ]
+    plugs: [ network-bind, opengl, wayland ]
   downloader:
     command: usr/bin/python3 $SNAP/bin/downloader.py
     daemon: oneshot # runs as root
