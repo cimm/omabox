@@ -18,7 +18,8 @@ fi
 
 # Run uploader after each config change so we can start adding images
 
-usr/bin/python3 $SNAP/bin/uploader.py
+# FIXME, b2sdk module not found when running from configure script
+# usr/bin/python3 $SNAP/bin/uploader.py
 
 # Set imv wait time before showing next picture via snap config
 
