@@ -8,11 +8,10 @@ import subprocess
 
 snap = os.getenv('SNAP')
 snap_user_common = os.getenv('SNAP_USER_COMMON')
-MEDIA_DIR = f'{snap_user_common}/media'
-IMV_CMD = f'{snap}/user/bin/imv'
-
-duration = int(subprocess.check_output(['snapctl', 'get', 'imv-duration']))
+media_dir = f'{snap_user_common}/media'
+imv_cmd = f'{snap}/usr/bin/imv'
+duration = subprocess.check_output(['snapctl', 'get', 'imv-duration'], encoding='UTF-8').rstrip()
 if not duration:
     duration = 10 # default for safety
 
-subprocess.run([IMV_CMD, '-f', f'-t {duration}', MEDIA_DIR])
+subprocess.run([imv_cmd, '-f', f'-t {duration}', media_dir])
