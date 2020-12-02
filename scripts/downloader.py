@@ -27,10 +27,10 @@ def get_snap_config(var):
         sys.exit(f'Config {val} is empty, set with "snap set omabox {var}"')
     return val
 
-def empty_media_dir():
+def created_and_empty_media_dir():
     """Remove all non HTML files in the media directory"""
     if not os.path.isdir(MEDIA_DIR):
-        sys.exit(f'Media directory "{MEDIA_DIR}" not found')
+        os.makedirs(MEDIA_DIR)
     for image in glob.glob(MEDIA_DIR + '/*'):
         if not image.endswith('html'):
             os.remove(image)
@@ -53,5 +53,5 @@ def download():
             reporter=reporter
         )
 
-empty_media_dir()
+created_and_empty_media_dir()
 download()
