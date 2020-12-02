@@ -1,6 +1,22 @@
 #!/bin/sh -e
 
-# Run uploader so we can start adding images
+# Block snap health when B2 is not yet configured
+
+APPLICATION_KEY_ID="$(snapctl get b2-application-key-id)"
+APPLICATION_KEY="$(snapctl get b2-application-key)"
+BUCKET="$(snapctl get b2-bucket)"
+
+if [ -z "$APPLICATION_KEY_ID" ]; then
+    snapctl set-health blocked "Missing required b2-application-key-id config"
+elif [ -z "$APPLICATION_KEY" ]; then
+    snapctl set-health blocked "Missing required b2-application-key config"
+elif [ -z "$BUCKET" ]; then
+    snapctl set-health blocked "Missing required b2-bucket config"
+else
+    snapctl set-health okay
+fi
+
+# Run uploader after each config change so we can start adding images
 
 usr/bin/python3 $SNAP/bin/uploader.py
 
