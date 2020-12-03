@@ -12,6 +12,7 @@ import sys
 import time
 from b2sdk.v1 import B2Api
 from b2sdk.v1 import InMemoryAccountInfo
+from b2sdk.v1 import NewerFileSyncMode
 from b2sdk.v1 import ScanPoliciesManager
 from b2sdk.v1 import SyncReport
 from b2sdk.v1 import Synchronizer
@@ -44,7 +45,11 @@ def download():
     bucket_uri = 'b2://' + get_snap_config('b2-bucket')
     source = parse_sync_folder(bucket_uri, b2)
     destination = parse_sync_folder(MEDIA_DIR, b2)
-    synchronizer = Synchronizer(max_workers=10, policies_manager=ScanPoliciesManager())
+    synchronizer = Synchronizer(
+            max_workers=10,
+            newer_file_mode=NewerFileSyncMode.SKIP,
+            policies_manager=ScanPoliciesManager(),
+        )
     with SyncReport(sys.stdout, False) as reporter:
         synchronizer.sync_folders(
             source_folder=source,
