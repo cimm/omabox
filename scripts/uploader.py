@@ -16,6 +16,7 @@ from b2sdk.v1 import B2Api
 
 snap = os.getenv('SNAP')
 snap_user_common = os.getenv('SNAP_USER_COMMON')
+SNAP_NAME = os.getenv('SNAP_NAME')
 
 MEDIA_DIR = f'{snap_user_common}/media'
 TEMPLATE_FILE = f'{snap}/uploader/index.html'
@@ -25,7 +26,7 @@ def get_snap_config(var):
     """Get a value from the snap’s configuration"""
     val = subprocess.check_output(['snapctl', 'get', var], encoding='UTF-8').rstrip()
     if not val:
-        sys.exit(f'Config {val} is empty, set with "snap set omabox {var}"')
+        sys.exit(f'Config {val} is empty, set with "snap set {SNAP_NAME} {var}"')
     return val
 
 def copy_template():

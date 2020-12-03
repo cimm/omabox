@@ -18,6 +18,7 @@ from b2sdk.v1 import SyncReport
 from b2sdk.v1 import Synchronizer
 from b2sdk.v1 import parse_sync_folder
 
+SNAP_NAME = os.getenv('SNAP_NAME')
 snap_user_common = os.getenv('SNAP_USER_COMMON')
 MEDIA_DIR = f'{snap_user_common}/media'
 
@@ -25,10 +26,10 @@ def get_snap_config(var):
     """Get a value from the snap’s configuration"""
     val = subprocess.check_output(['snapctl', 'get', var], encoding='UTF-8').rstrip()
     if not val:
-        sys.exit(f'Config {val} is empty, set with "snap set omabox {var}"')
+        sys.exit(f'Config {val} is empty, set with "snap set {SNAP_NAME} {var}"')
     return val
 
-def created_and_empty_media_dir():
+def create_and_empty_media_dir():
     """Remove all non HTML files in the media directory"""
     if not os.path.isdir(MEDIA_DIR):
         os.makedirs(MEDIA_DIR)
@@ -58,5 +59,10 @@ def download():
             reporter=reporter
         )
 
-created_and_empty_media_dir()
+def restart_imv():
+    """Restart imv so it sees the newly downloaded images"""
+    subprocess.run(['snapctl', 'restart', f'{SNAP_NAME}.imv'])
+
+create_and_empty_media_dir()
 download()
+restart_imv()
