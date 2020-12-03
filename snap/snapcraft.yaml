@@ -37,12 +37,12 @@ apps:
   downloader:
     command: usr/bin/python3 $SNAP/bin/downloader.py
     daemon: oneshot # runs as root
-    timer: '09:00-23:00/12'
+    timer: '00:00-24:00/96' # every 15 minutes
     plugs: [ network ]
   uploader:
     command: usr/bin/python3 $SNAP/bin/uploader.py
     daemon: oneshot
-    timer: '09:30-23:30/12' # TOD0 only once or twice per day
+    timer: '00:00-24:00/96'
     plugs: [ network ]
 
 hooks:
