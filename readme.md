@@ -63,8 +63,6 @@ Each picture will be shown for 10 seconds, this can be changed via the omaBOX co
 $ snap set omabox imv-duration=30
 ```
 
-Depending on your hardware the screen might be upside down. Luckily we can [rotate the screen](https://askubuntu.com/a/1293464) in the mir-kiosk config.
-
 ## Development
 
 This section explains the inner workings of the omaBOX snap and is not needed to get your omaBOX up and running.
@@ -88,6 +86,20 @@ The `index.html` is a single HTML page for easier installation. The `uploader/sr
 ```sh
 inliner --nocompress uploader/src/index.html > uploader/dist/index.html
 ```
+
+## FAQ
+
+- Why is the screen upside down?
+
+  Depending on your hardware the screen might be upside down. We can [rotate the screen](https://askubuntu.com/a/1293464) in the mir-kiosk config.
+
+- How do I change the network settings?
+
+  You can change the network settings via the `console-conf` command.
+
+- Why does it show a number after the index.html file in my Backblaze bucket?
+
+  The script reuploads the index.html file over and over with a new authorization key and upload URL. Backblaze will keep old versions around for [one day](https://help.backblaze.com/hc/en-us/articles/360039296494-How-to-set-Lifecycle-Rules-on-B2) before deleting them, even with the lifecycle settings set to only keep the last version.
 
 ## License
 
