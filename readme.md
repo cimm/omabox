@@ -57,10 +57,11 @@ Wait for up to an hour for the Pi to sync and show the photos on the screen. An 
 
 ### 4. Optional Configuration
 
-Each picture will be shown for 10 seconds, this can be changed via the omaBOX configuration settings on the Raspberry Pi.
+Each picture will be shown for 10 seconds, this can be changed via the omaBOX configuration settings on the Raspberry Pi. Pictures will be removed after 30 days, this can be configured as well.
 
 ```sh
-$ snap set omabox imv-duration=30
+$ snap set omabox imv-duration=30 # defaults to 10 sec
+$ snap set omabox remove-after-days=10 # defaults to 30 days
 ```
 
 ## Development

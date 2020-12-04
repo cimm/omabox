@@ -3,7 +3,9 @@
 # Downloads all images from the specified Backblaze B2 bucket to a local
 # MEDIA_DIR folder where they can be found by imv. Snap runs scripts as
 # root so the media folder belongs to root. It does nothing if the B2
-# authorization keys and bucket aren’t configured.
+# authorization keys and bucket aren’t configured. Only images newer
+# than the remove-after-days snap config value will be downloaded. Since
+# local files are removed, older images will automatically dissapear.
 
 import glob
 import os
@@ -38,24 +40,29 @@ def create_and_empty_media_dir():
             os.remove(image)
 
 def download():
-    """Download all from the bucket to the media folder"""
+    """Download files modified in last x days from the bucket to the media folder"""
     b2 = B2Api(InMemoryAccountInfo())
     app_key_id = get_snap_config('b2-application-key-id')
     app_key = get_snap_config('b2-application-key')
     b2.authorize_account('production', app_key_id, app_key)
+    exclude_before_timestamp = (int(time.time()) - (int(get_snap_config('remove-after-days')) * 86400))
+    policies_manager = ScanPoliciesManager(
+            exclude_file_regexes=('html'),
+            exclude_modified_before=exclude_before_timestamp * 1000 # in ms
+        )
+    synchronizer = Synchronizer(
+            max_workers=5,
+            newer_file_mode=NewerFileSyncMode.SKIP,
+            policies_manager=policies_manager
+        )
     bucket_uri = 'b2://' + get_snap_config('b2-bucket')
     source = parse_sync_folder(bucket_uri, b2)
     destination = parse_sync_folder(MEDIA_DIR, b2)
-    synchronizer = Synchronizer(
-            max_workers=10,
-            newer_file_mode=NewerFileSyncMode.SKIP,
-            policies_manager=ScanPoliciesManager(),
-        )
     with SyncReport(sys.stdout, False) as reporter:
         synchronizer.sync_folders(
             source_folder=source,
             dest_folder=destination,
-            now_millis=int(round(time.time() * 1000)),
+            now_millis=int(time.time()) * 1000,
             reporter=reporter
         )
 

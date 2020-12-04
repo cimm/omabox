@@ -31,3 +31,12 @@ if ! expr "$imv_duration" : '^[0-9]*$' > /dev/null; then
     snapctl set imv-duration="$DEFAULT_IMV_DURATION"
     snapctl restart "$SNAP_NAME".imv
 fi
+
+# How long do we keep images around?
+
+DEFAULT_REMOVE_AFTER_DAYS=30
+remove_after_days="$(snapctl get remove-after-days)"
+if ! expr "$remove_after_days" : '^[0-9]*$' > /dev/null; then
+    echo "\"$remove_after_days\" is not valid, reveting to $DEFAULT_REMOVE_AFTER_DAYS days" >&2
+    snapctl set remove-after-days="$DEFAULT_REMOVE_AFTER_DAYS"
+fi
