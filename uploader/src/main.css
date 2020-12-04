@@ -2,6 +2,9 @@ header {
   margin-top: 2rem;
   text-align: center;
 }
+header img {
+  width: 10rem;
+}
 form {
   padding: 1rem 0;
   text-align: center;

@@ -1,5 +1,5 @@
 <div align='center'>
-  <img src='uploader/src/logo.webp'>
+  <img src='uploader/src/grandma.svg' width='250px'>
   <p>
     <em>A <a href='https://snapcraft.io/about'>snap</a> for <a href='https://ubuntu.com/core'>Ubuntu Core</a> intended to run on a <a href='https://www.raspberrypi.org/products/raspberry-pi-3-model-b/'>Raspberry Pi</a> as an internet-connected digital picture frame.</em>
   </p>
@@ -104,4 +104,4 @@ inliner --nocompress uploader/src/index.html > uploader/dist/index.html
 
 ## License
 
-The snap itself, imv, and B2 SDK library are all MIT licensed. The omaBOX was forked from the [picviewer-kiosk](https://snapcraft.io/picviewer-kiosk) snap.
+The snap itself, imv, and B2 SDK library are all MIT licensed. The omaBOX was forked from the [picviewer-kiosk](https://snapcraft.io/picviewer-kiosk) snap. The logo is from [unDraw](https://undraw.co).
