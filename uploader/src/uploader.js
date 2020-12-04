@@ -1,7 +1,10 @@
 // Resizes the image to 800px (screen with of Raspberry Pi)
 // and uploads the image to the Backblaze B2 bucket specified
 // by the authorizationToken and uploadUrl.
+
 async function upload(files, authorizationToken, uploadUrl) {
+  spinner(true)
+
   const [ file ] = files
   const maxSize = 800
 
@@ -14,17 +17,31 @@ async function upload(files, authorizationToken, uploadUrl) {
     },
     body: await resizeImage(file, maxSize)
   })
-  .then(response => response.json())
-  .then(data => {
+  .then((response) => response.json())
+  .then((data) => {
+    spinner(false)
+    document.getElementById('fileUpload').value = ''
     (data.action === 'upload') ? alert('Image uploaded') : alert('Oops, something went wrong')
   })
-  .catch((error) => alert(error))
+  .catch((error) => {
+    spinner(false)
+    alert(error)
+  })
 }
 
 // Semi-randomizes the filename so we don't override 
 // existing files in the bucket.
 function randomizeFilename(file) {
   return Math.random().toString(36).substring(2) + '.' + file.name.split('.').pop()
+}
+
+function spinner(active) {
+  let spin = document.getElementsByClassName('loader')[0]
+  if (active) {
+    spin.classList.add('is-active')
+  } else {
+    spin.classList.remove('is-active')
+  }
 }
 
 // Resize image before uploading
