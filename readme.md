@@ -7,7 +7,7 @@
 
 ## What
 
-A Raspberry Pi with a screen that loops over a local directory with pictures and periodically refreshes these from a Backblaze B2 bucket. New pictures in the bucket will, after a while, automatically show up on the picture frame.
+A Raspberry Pi with a screen that loops over a local directory with pictures and periodically refreshes these from a Backblaze B2 bucket. New pictures in the bucket will, after a while, automatically show up on the picture frame. New pictures can be added via a public webpage.
 
 ## Why
 
@@ -63,6 +63,10 @@ Each picture will be shown for 10 seconds, this can be changed via the omaBOX co
 $ snap set omabox imv-duration=30 # defaults to 10 sec
 $ snap set omabox remove-after-days=10 # defaults to 30 days
 ```
+
+<p align='center'>
+  <img src='omabox.webp' align='center'>
+</p>
 
 ## Development
 
