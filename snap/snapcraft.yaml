@@ -44,6 +44,11 @@ apps:
     daemon: oneshot
     timer: '00:00-24:00/96'
     plugs: [ network ]
+  brightness:
+    command: usr/bin/python3 $SNAP/bin/brightness.py
+    daemon: oneshot
+    timer: '00:00-24:00/96'
+    plugs: [ display-control ]
 
 hooks:
   configure:
@@ -85,6 +90,7 @@ parts:
     source: scripts/
     plugin: dump
     organize:
+      brightness.py: bin/brightness.py
       downloader.py: bin/downloader.py
       imv-wrapper.py: bin/imv-wrapper.py
       uploader.py: bin/uploader.py

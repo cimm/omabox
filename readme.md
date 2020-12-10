@@ -64,6 +64,12 @@ $ snap set omabox imv-duration=30 # defaults to 10 sec
 $ snap set omabox remove-after-days=10 # defaults to 30 days
 ```
 
+The omaBOX can optionally dim the screen after sunset. Connect the `display-control` plug to give the omaBOX the necessary permissions to dim the screen. For now, it uses UTC and a location in central Europe to detect sunrise and sunset, this still needs to be improved.
+
+```sh
+$ snap connect omabox:display-control :display-control
+```
+
 <p align='center'>
   <img src='omabox.webp' align='center'>
 </p>
@@ -72,7 +78,7 @@ $ snap set omabox remove-after-days=10 # defaults to 30 days
 
 This section explains the inner workings of the omaBOX snap and is not needed to get your omaBOX up and running.
 
-The omaBOX snap has 3 main components, all run locally on the Raspberry Pi.
+The omaBOX snap has 4 main components, all run locally on the Raspberry Pi.
 
 ### 1. Image Viewer
 
@@ -91,6 +97,10 @@ The `index.html` is a single HTML page for easier installation. The `uploader/sr
 ```sh
 inliner --nocompress uploader/src/index.html > uploader/dist/index.html
 ```
+
+### 4. Brightness
+
+The brightness script uses a hard-coded (for now) latitude and longitude to detect if it’s daytime. If so it increases the brightness of the screen to 90 (maximum is 255). After sunset, it drops the brightness to 20. Since snaps are confined and this script needs access to a system file you need to manually grant permissions by connecting the `display-control` plug (see above).
 
 ## FAQ
 
