@@ -16,10 +16,10 @@ else
     snapctl set-health okay
 fi
 
-# Run uploader after each config change so we can start adding images
+# Run upload after each config change so we can start adding images
 
 # FIXME, b2sdk module not found when running from configure script
-# usr/bin/python3 $SNAP/bin/uploader.py
+# usr/bin/python3 $SNAP/bin/upload.py
 
 # Set imv wait time before showing next picture via snap config
 

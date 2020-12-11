@@ -1,5 +1,5 @@
 <div align='center'>
-  <img src='uploader/src/grandma.svg' width='250px'>
+  <img src='upload/src/grandma.svg' width='250px'>
   <p>
     <em>A <a href='https://snapcraft.io/about'>snap</a> for <a href='https://ubuntu.com/core'>Ubuntu Core</a> intended to run on a <a href='https://www.raspberrypi.org/products/raspberry-pi-3-model-b/'>Raspberry Pi</a> as an internet-connected digital picture frame.</em>
   </p>
@@ -88,14 +88,14 @@ The [imv](https://github.com/eXeC64/imv) image viewer for the heavy lifting of s
 
 A Python script that syncs the images from the bucket to the Pi via the [B2 SDK](https://github.com/Backblaze/b2-sdk-python) library. It runs hourly but this can all be tweaked in the [snapcraft.yaml](snap/snapcraft.yaml).
 
-### 3. Uploader
+### 3. Upload
 
-An uploader script to refresh the B2 authorization key and upload URL in the `index.html` and upload it to the bucket, also via the B2 SDK. The `index.html` is a simple website so friends and family don’t need access to B2 bucket. Since the B2 authorization key is only valid for 24 hours the uploader needs to run daily. The `index.html` also resizes the pictures before uploading, it’s faster and I noticed imv has issues with larger images.
+An upload script to refresh the B2 authorization key and upload URL in the `index.html` and upload it to the bucket, also via the B2 SDK. The `index.html` is a simple website so friends and family don’t need access to B2 bucket. Since the B2 authorization key is only valid for 24 hours the upload needs to run daily. The `index.html` also resizes the pictures before uploading, it’s faster and I noticed imv has issues with larger images.
 
-The `index.html` is a single HTML page for easier installation. The `uploader/src` folder is for development. Inline the JavaScript, CSS, and logo with [inliner](https://github.com/remy/inliner) to the `uploader/dist` folder before building a new snap.
+The `index.html` is a single HTML page for easier installation. The `upload/src` folder is for development. Inline the JavaScript, CSS, and logo with [inliner](https://github.com/remy/inliner) to the `upload/dist` folder before building a new snap.
 
 ```sh
-inliner --nocompress uploader/src/index.html > uploader/dist/index.html
+inliner --nocompress upload/src/index.html > upload/dist/index.html
 ```
 
 ### 4. Brightness

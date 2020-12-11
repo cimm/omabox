@@ -39,8 +39,8 @@ apps:
     daemon: oneshot # runs as root
     timer: '00:00-24:00/96' # every 15 minutes
     plugs: [ network ]
-  uploader:
-    command: usr/bin/python3 $SNAP/bin/uploader.py
+  upload:
+    command: usr/bin/python3 $SNAP/bin/upload.py
     daemon: oneshot
     timer: '00:00-24:00/96'
     plugs: [ network ]
@@ -93,9 +93,9 @@ parts:
       brightness.py: bin/brightness.py
       download.py: bin/download.py
       imv-wrapper.py: bin/imv-wrapper.py
-      uploader.py: bin/uploader.py
-  uploader:
-    source: uploader/dist
+      upload.py: bin/upload.py
+  upload:
+    source: upload/dist
     plugin: dump
     organize:
-      index.html: uploader/index.html
+      index.html: upload/index.html

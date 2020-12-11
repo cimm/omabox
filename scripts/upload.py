@@ -19,7 +19,7 @@ snap_user_common = os.getenv('SNAP_USER_COMMON')
 SNAP_NAME = os.getenv('SNAP_NAME')
 
 MEDIA_DIR = f'{snap_user_common}/media'
-TEMPLATE_FILE = f'{snap}/uploader/index.html'
+TEMPLATE_FILE = f'{snap}/upload/index.html'
 INDEX_FILE = f'{MEDIA_DIR}/index.html'
 
 def get_snap_config(var):
