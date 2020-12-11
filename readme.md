@@ -84,7 +84,7 @@ The omaBOX snap has 4 main components, all run locally on the Raspberry Pi.
 
 The [imv](https://github.com/eXeC64/imv) image viewer for the heavy lifting of showing the pixels on the screen.
 
-### 2. Downloader
+### 2. Download
 
 A Python script that syncs the images from the bucket to the Pi via the [B2 SDK](https://github.com/Backblaze/b2-sdk-python) library. It runs hourly but this can all be tweaked in the [snapcraft.yaml](snap/snapcraft.yaml).
 

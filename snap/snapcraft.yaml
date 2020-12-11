@@ -34,8 +34,8 @@ apps:
     restart-condition: always
     extensions: [ gnome-3-28 ]
     plugs: [ network-bind, opengl, wayland ]
-  downloader:
-    command: usr/bin/python3 $SNAP/bin/downloader.py
+  download:
+    command: usr/bin/python3 $SNAP/bin/download.py
     daemon: oneshot # runs as root
     timer: '00:00-24:00/96' # every 15 minutes
     plugs: [ network ]
@@ -91,7 +91,7 @@ parts:
     plugin: dump
     organize:
       brightness.py: bin/brightness.py
-      downloader.py: bin/downloader.py
+      download.py: bin/download.py
       imv-wrapper.py: bin/imv-wrapper.py
       uploader.py: bin/uploader.py
   uploader:
