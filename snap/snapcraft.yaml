@@ -37,17 +37,17 @@ apps:
   download:
     command: usr/bin/python3 $SNAP/bin/download.py
     daemon: oneshot # runs as root
-    timer: '00:00-24:00/96' # every 15 minutes
+    timer: '00:00-24:00/12' # every 2 hours
     plugs: [ network ]
   upload:
     command: usr/bin/python3 $SNAP/bin/upload.py
     daemon: oneshot
-    timer: '00:00-24:00/96'
+    timer: '00:00-24:00/3' # every 8 hours
     plugs: [ network ]
   brightness:
     command: usr/bin/python3 $SNAP/bin/brightness.py
     daemon: oneshot
-    timer: '00:00-24:00/96'
+    timer: '00:00-24:00/48' # every half hour
     plugs: [ display-control ]
 
 hooks:
