@@ -45,9 +45,9 @@ def download():
     app_key_id = get_snap_config('b2-application-key-id')
     app_key = get_snap_config('b2-application-key')
     b2.authorize_account('production', app_key_id, app_key)
-    exclude_before_timestamp = (int(time.time()) - (int(get_snap_config('remove-after-days')) * 86400))
+    exclude_before_timestamp = int(time.time()) - (int(get_snap_config('remove-after-days')) * 86400)
     policies_manager = ScanPoliciesManager(
-            exclude_file_regexes=('html'),
+            exclude_file_regexes=("index.html",),
             exclude_modified_before=exclude_before_timestamp * 1000 # in ms
         )
     synchronizer = Synchronizer(
@@ -62,7 +62,7 @@ def download():
         synchronizer.sync_folders(
             source_folder=source,
             dest_folder=destination,
-            now_millis=int(time.time()) * 1000,
+            now_millis=time.time() * 1000, # in ms
             reporter=reporter
         )
 
