@@ -31,16 +31,8 @@ def get_snap_config(var):
         sys.exit(f'Config {val} is empty, set with "snap set {SNAP_NAME} {var}"')
     return val
 
-def create_and_empty_media_dir():
-    """Remove all non HTML files in the media directory"""
-    if not os.path.isdir(MEDIA_DIR):
-        os.makedirs(MEDIA_DIR)
-    for image in glob.glob(MEDIA_DIR + '/*'):
-        if not image.endswith('html'):
-            os.remove(image)
-
-def download():
-    """Download files modified in last x days from the bucket to the media folder"""
+def sync():
+    """Synchronize files modified in last x days from the bucket to the media folder"""
     b2 = B2Api(InMemoryAccountInfo())
     app_key_id = get_snap_config('b2-application-key-id')
     app_key = get_snap_config('b2-application-key')
@@ -58,6 +50,8 @@ def download():
     bucket_uri = 'b2://' + get_snap_config('b2-bucket')
     source = parse_sync_folder(bucket_uri, b2)
     destination = parse_sync_folder(MEDIA_DIR, b2)
+    if not os.path.isdir(MEDIA_DIR):
+        os.makedirs(MEDIA_DIR)
     with SyncReport(sys.stdout, False) as reporter:
         synchronizer.sync_folders(
             source_folder=source,
@@ -66,10 +60,20 @@ def download():
             reporter=reporter
         )
 
+def remove_old_media():
+    """Delete all media files older than x days"""
+    max_lifetime = int(get_snap_config('remove-after-days')) * 86400 # in seconds
+    for image in glob.glob(MEDIA_DIR + '/*'):
+        if image.endswith('html'):
+            continue
+        modified_at = os.path.getmtime(image)
+        if time.time() - modified_at > max_lifetime:
+            os.remove(image)
+
 def restart_imv():
     """Restart imv so it sees the newly downloaded images"""
     subprocess.run(['snapctl', 'restart', f'{SNAP_NAME}.imv'])
 
-create_and_empty_media_dir()
-download()
+sync()
+remove_old_media()
 restart_imv()
