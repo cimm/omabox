@@ -49,6 +49,13 @@ apps:
     daemon: oneshot
     timer: '00:00-24:00/48' # every half hour
     plugs: [ display-control ]
+    # connect manually via `snap connect omabox:display-control`
+  reconnect:
+    command: $SNAP/bin/reconnect.sh
+    daemon: oneshot
+    timer: '04:00'
+    plugs: [ network-setup-control ]
+    # connect manually via `snap connect omabox:network-setup-control`
 
 hooks:
   configure:
@@ -94,6 +101,7 @@ parts:
       download.py: bin/download.py
       imv-wrapper.py: bin/imv-wrapper.py
       upload.py: bin/upload.py
+      reconnect.sh: bin/reconnect.sh
   upload:
     source: upload/dist
     plugin: dump

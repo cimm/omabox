@@ -1,3 +1,5 @@
+# omaBOX
+
 <div align='center'>
   <img src='upload/src/grandma.svg' width='250px'>
   <p>
@@ -19,11 +21,11 @@ A little webpage where family and friends can upload images to a Backblaze B2 bu
 
 ## Build Your Own
 
-A bit geeky but not too much: no soldering or programming required. You’ll need a Raspberry Pi, tested with a 3 model B but any will do, with a screen. This should cost you around €90.
+A bit geeky but not too much: no soldering or programming required. You’ll need a Raspberry Pi, tested with a 3 model B, but any will do, with a screen. This should cost you around €90.
 
 ### 1. Ubuntu Core
 
-Install Ubuntu Core on the Raspberry Pi. Ubuntu Core is a self-updating read-only (almost) OS. We could use any Linux for this project but Ubuntu Core and the applications (called snaps) will automatically update. This helps to keep maintenance low. Configure the wifi or connect the Pi via ethernet.
+Install Ubuntu Core on the Raspberry Pi. Ubuntu Core is a self-updating read-only (almost) OS. We could use any Linux for this project, but Ubuntu Core and the applications (called snaps) will automatically update. This helps to keep maintenance low. Configure the wifi or connect the Pi via ethernet.
 
 ### 2. Backblaze B2
 
@@ -45,7 +47,7 @@ $ b2 update-bucket --corsRules '[
 
 ### 3. Snaps
 
-Next, install the [mir-kiosk](https://snapcraft.io/mir-kiosk) snap on the Raspberry Pi, it runs graphical applications. The omaBOX snap is next, this adds an image viewer and some scripts to tie the whole thing together. Configure the B2 bucket and App Key pair.
+Next, install the [mir-kiosk](https://snapcraft.io/mir-kiosk) snap on the Raspberry Pi to run graphical applications. The omaBOX snap is next, it adds an image viewer and some scripts to tie the whole thing together. Configure the B2 bucket and App Key pair.
 
 ```sh
 $ snap install mir-kiosk
@@ -67,7 +69,13 @@ $ snap set omabox remove-after-days=10 # defaults to 30 days
 The omaBOX can optionally dim the screen after sunset. Connect the `display-control` plug to give the omaBOX the necessary permissions to dim the screen. For now, it uses UTC and a location in central Europe to detect sunrise and sunset, this still needs to be improved.
 
 ```sh
-$ snap connect omabox:display-control :display-control
+$ snap connect omabox:display-control
+```
+
+Optional. My omaBox connects to the internet via a [4G USB stick](https://kuwfi.com/u_file/2003/photo/09e96d18e0.jpg). Sometimes Ubuntu connects to the wifi before the stick has finished booting. As a workaround, the network interface can be restarted daily. For this, the omaBOX needs network setup control. It’s a hack, and you probably don’t need this.
+
+```sh
+$ snap connect omabox:network-setup-control
 ```
 
 <p align='center'>
@@ -100,7 +108,7 @@ inliner --nocompress upload/src/index.html > upload/dist/index.html
 
 ### 4. Brightness
 
-The brightness script uses a hard-coded (for now) latitude and longitude to detect if it’s daytime. If so it increases the brightness of the screen to 90 (maximum is 255). After sunset, it drops the brightness to 20. Since snaps are confined and this script needs access to a system file you need to manually grant permissions by connecting the `display-control` plug (see above).
+The brightness script uses a hard-coded (for now) latitude and longitude to detect if it’s daytime. If so, it increases the brightness of the screen to 90 (maximum is 255). After sunset, it drops the brightness to 20. Since snaps are confined, and this script needs access to a system file you need to manually grant permissions by connecting the `display-control` plug (see above).
 
 ## FAQ
 
