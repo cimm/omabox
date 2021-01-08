@@ -106,7 +106,7 @@ The brightness script uses a hard-coded (for now) latitude and longitude to dete
 
 - Why is the screen upside down?
 
-  Depending on your hardware the screen might be upside down. We can [rotate the screen](https://askubuntu.com/a/1293464) in the mir-kiosk config.
+  Depending on your hardware the screen might be upside down. We can [rotate the screen](https://askubuntu.com/a/1293464) in the Ubuntu Core or mir-kiosk config.
 
 - How do I change the network settings?
 
