@@ -7,6 +7,23 @@
   </p>
 </div>
 
+- [omaBOX](#omabox)
+  * [What](#what)
+  * [Why](#why)
+  * [How](#how)
+  * [Build Your Own](#build-your-own)
+    + [1. Ubuntu Core](#1-ubuntu-core)
+    + [2. Backblaze B2](#2-backblaze-b2)
+    + [3. Snaps](#3-snaps)
+    + [4. Optional Configuration](#4-optional-configuration)
+  * [Development](#development)
+    + [1. Image Viewer](#1-image-viewer)
+    + [2. Download](#2-download)
+    + [3. Upload](#3-upload)
+    + [4. Brightness](#4-brightness)
+  * [FAQ](#faq)
+  * [License](#license)
+
 ## What
 
 A Raspberry Pi with a screen that loops over a local directory with pictures and periodically refreshes these from a Backblaze B2 bucket. New pictures in the bucket will, after a while, automatically show up on the picture frame. New pictures can be added via a public webpage.
