@@ -91,9 +91,9 @@ def isDayTime(coords):
     return False
 
 coords = {'latitude': 50.8898, 'longitude': 4.6982}
-f = open("/sys/class/backlight/rpi_backlight/brightness", "w") # this file is probably not writable from within the snap
+f = open('/sys/class/backlight/rpi_backlight/brightness', 'w') # make writable via `snap connect omabox:display-control`
 if isDayTime(coords):
-    f.write("90")
+    f.write('250')
 else:
-    f.write("20")
+    f.write('30')
 f.close()
