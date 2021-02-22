@@ -42,7 +42,7 @@ apps:
   upload:
     command: usr/bin/python3 $SNAP/bin/upload.py
     daemon: oneshot
-    timer: '00:00-24:00/3' # every 8 hours
+    timer: '00:00-24:00/6' # every 4 hours
     plugs: [ network ]
   brightness:
     command: usr/bin/python3 $SNAP/bin/brightness.py
